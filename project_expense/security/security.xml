@@ -1,0 +1,33 @@
+<odoo>
+    <record id="category_project_management" model="ir.module.category">
+        <field name="name">Project Management</field>
+        <field name="description">Category for project management-related modules and menus</field>
+        <field name="sequence">10</field>
+    </record>
+    <!-- Define the Expense Manager Group -->
+    <record id="expense_manager_group" model="res.groups">
+        <field name="name">Expense Manager</field>
+        <field name="category_id" ref="category_project_management"/>
+    </record>
+
+    <record id="project_expense_request_access" model="ir.model.access">
+        <field name="name">project.expense.request access</field>
+        <field name="model_id" ref="model_project_expense_request"/>
+        <field name="group_id" ref="expense_manager_group"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="access_expense_type" model="ir.model.access">
+        <field name="model_id" ref="model_expense_type"/>
+        <field name="group_id" ref="expense_manager_group"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+
+
+</odoo>

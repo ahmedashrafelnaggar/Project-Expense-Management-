@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+
+        <!-- Expense Type Tree View -->
+        <record id="view_product_line_tree" model="ir.ui.view">
+            <field name="name">product.line.tree</field>
+            <field name="model">product.line</field>
+            <field name="arch" type="xml">
+                <tree string="Product Line">
+                    <field name="request_id"/>
+                    <field name="product_id"/>
+                    <field name="quantity"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Expense Type Form View -->
+        <record id="view_product_line_form" model="ir.ui.view">
+            <field name="name">product.line.form</field>
+            <field name="model">product.line</field>
+            <field name="arch" type="xml">
+                <form string="Product Line">
+                    <group>
+                        <field name="request_id"/>
+                        <field name="product_id"/>
+                        <field name="quantity"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action for Expense Types -->
+        <record id="action_product_line" model="ir.actions.act_window">
+            <field name="name">product.line</field>
+            <field name="res_model">product.line</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="product_line_menu"
+                name="Product Line "
+                parent="project.menu_main_pm"
+                action="action_product_line"
+        />
+    </data>
+</odoo>

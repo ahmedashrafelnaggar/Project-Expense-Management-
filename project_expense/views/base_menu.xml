@@ -1,0 +1,8 @@
+<odoo>
+    <data>
+        <menuitem id="expense_type_root_menu"
+                  name="Expense Types"
+                  sequence="10"/>
+
+    </data>
+</odoo>

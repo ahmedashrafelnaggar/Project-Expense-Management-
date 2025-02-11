@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+
+        <!-- Expense Type Tree View -->
+        <record id="view_expense_type_tree" model="ir.ui.view">
+            <field name="name">expense.type.tree</field>
+            <field name="model">expense.type</field>
+            <field name="arch" type="xml">
+                <tree string="Expense Types">
+                    <field name="name"/>
+                    <field name="limit"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Expense Type Form View -->
+        <record id="view_expense_type_form" model="ir.ui.view">
+            <field name="name">expense.type.form</field>
+            <field name="model">expense.type</field>
+            <field name="arch" type="xml">
+                <form string="Expense Type">
+                    <group>
+                        <field name="name"/>
+                        <field name="limit"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action for Expense Types -->
+        <record id="action_expense_type" model="ir.actions.act_window">
+            <field name="name">Expense Types</field>
+            <field name="res_model">expense.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="expense_type_menu"
+                name="Expense Type"
+                parent="project.menu_main_pm"
+                action="action_expense_type"
+        />
+    </data>
+</odoo>

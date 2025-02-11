@@ -1,0 +1,105 @@
+<odoo>
+    <template id="portal_my_home" inherit_id="portal.portal_my_home" name="My Portal">
+        <xpath expr="//div[contains(@class, 'o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="url">/my/expense_requests</t>
+                <t t-set="title">Requests</t>
+                <t t-set="placeholder_count" t-value=" 'request_counts' "/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_breadcrumbs" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[contains(@class, 'o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'request_list_view'" class="breadcrumb-item">Requests</li>
+            <li t-if="page_name == 'request_form_view'" class="breadcrumb-item">
+                <a href="/my/expense_requests">Requests
+                </a> <!--when i click on Partners , it will return on this link "/my/partner" -->
+            </li>
+
+        </xpath>
+    </template>
+
+    <template id="portal_my_expenses">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Project Name</th>
+                        <th class="text-center">state</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="requests" t-as="request">
+                        <tr>
+                            <td class="text-center">
+                                <a t-attf-href="/my/expense_requests/#{request.id}">
+                                    <t t-out="request.name"/>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <t t-out="request.project_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <t t-out="request.state"/>
+                            </td>
+
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+
+
+    </template>
+
+
+    <template id="portal_expense_form" inherit_id="portal.portal_sidebar">
+        <xpath expr="//div[contains(@class, 'o_portal_sidebar')]" position="inside">
+            <t t-if="page_name == 'request_form_view'">
+                <section style="background-color: #eee;">
+                    <div class="container py-5">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-body text-center">
+                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                             alt="avatar" class="rounded-circle img-fluid" style="width: 150px;"/>
+                                        <h5 class="my-3">
+                                            <t t-out="Requests.name"/>
+                                        </h5>
+                                        <!--                                            <p class="text-muted mb-1"><t t-out="partners.name"/></p>-->
+                                        <p class="text-muted mb-4">
+                                            <t t-out="Requests.project_id.name"/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Full Name</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="Requests.state"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>
+

@@ -1,0 +1,265 @@
+<odoo>
+    <data>
+                <!--        Activity View you should field inheirit mail oe_chatter-->
+        <record id="view_activity_checkout" model="ir.ui.view">
+            <field name="model">project.expense.request</field>
+            <field name="arch" type="xml">
+                <!-- يتم تعريف عرض النشاط داخل علامة activity -->
+                <activity string="Checkouts">
+                    <templates>
+                        <!-- يتم تعريف هيكل HTML لعرض السجلات داخل templates -->
+                        <div t-name="activity-box">
+                            <div>
+                                <!-- عرض حقل 'ntame' -->
+                                <field name="activity_ids"/>
+                                <field name="name"/>
+                            </div>
+                        </div>
+                    </templates>
+                </activity>
+            </field>
+        </record>
+
+
+        <!-- Tree View for Project Expense Request -->
+        <record id="view_project_expense_request_tree" model="ir.ui.view">
+            <field name="name">project.expense.request.tree</field>
+            <field name="model">project.expense.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="date"/>
+                    <field name="project_id"/>
+                    <field name="task_count"/>
+                    <field name="total_amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--        calender view when you create  it you should create field named date_deadline and request_date and user_id -->
+        <record id="view_calendar_product" model="ir.ui.view">
+            <field name="name">project.expense.request.calendar</field>
+            <field name="model">project.expense.request</field>
+            <field name="arch" type="xml">
+                <calendar date_start="request_date" color="user_id">
+                    <field name="user_id"/>
+                    <field name="state"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!--        graph-->
+        <record id="view_graph_product" model="ir.ui.view">
+            <field name="name">project.expense.request.graph</field>
+            <field name="model">project.expense.request</field>
+            <field name="arch" type="xml">
+                <graph string="Product Price" type="bar">
+                    <!--                    with field compute use type mesure because it use with filds compute type="measure": لاستخدام الحقل كقيمة يتم جمعها أو تحليلها.-->
+                    <field name="total_amount" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+
+<!--        pivot-->
+        <record id="view_pivot_product" model="ir.ui.view">
+            <field name="name">project.expense.request.pivot</field>
+            <field name="model">project.expense.request</field>
+            <field name="arch" type="xml">
+                <pivot string="Product Pivot">
+                    <field name="name"/>
+<!--                    type="col": لاستخدام الحقل كأعمدة في الجدول المحوري.-->
+                    <field name="state" type="col" />
+<!--                    if you use request_date use interval week interval: حقل تاريخ يمكن تجميعه حسب فترات زمنية مثل اليوم، الأسبوع، الشهر، الربع، أو السنة.-->
+                    <field name="request_date" interval="week" />
+<!--                    with field compute use type mesure because it use with filds compute type="measure": لاستخدام الحقل كقيمة يتم جمعها أو تحليلها.-->
+                    <field name="total_amount" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+<!--&lt;!&ndash;        this is the best kanban &ndash;&gt;-->
+<!--        <record id="library_checkout_kanban" model="ir.ui.view">-->
+<!--            <field name="name">library.checkout.kanban</field>-->
+<!--            <field name="model">project.expense.request</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                &lt;!&ndash;   sum_fields="state" this is the number of fields state like done (5) and danger (3) &ndash;&gt;-->
+<!--&lt;!&ndash;                <field name="state"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <field name="kanban_state"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <field name="user_id"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <field name="priority" widget/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <field name="activity_ids"/>&ndash;&gt;-->
+<!--                <kanban default_group_by="state" quick_create="false" records_draggable="true">-->
+<!--                    <progressbar field="state"-->
+<!--                                 colors='{-->
+<!--                "done": "success",-->
+<!--                "confirmed": "danger",-->
+<!--                "cancel": "muted"-->
+<!--            }'-->
+<!--                                 sum_fields="total_amount"-->
+<!--                    />-->
+<!--                    <templates>-->
+<!--                        <t t-name="kanban-box">-->
+<!--                            <div class="oe_kanban_global_click">-->
+<!--                                <div class="o_dropdown_kanban dropdown">-->
+<!--                                    <a class="dropdown-toggle btn" role="button" data-toggle="dropdown" href="#">-->
+<!--                                        <span class="fa fa-ellipsis-v"/>-->
+<!--                                    </a>-->
+<!--&lt;!&ndash;                                     name="name of method action_done" type="object">تعيين كمنجز&ndash;&gt;-->
+<!--                                    <div class="dropdown-menu">-->
+<!--                                        <a role="menuitem" type="open" class="dropdown-item">Open</a>-->
+<!--                                        <a role="menuitem" type="edit" class="dropdown-item">تعديل</a>-->
+<!--                                        <a role="menuitem" type="delete" class="dropdown-item">حذف</a>-->
+<!--                                        <div role="separator" class="dropdown-divider"/>-->
+<!--                                        <ul class="oe_kanban_colorpicker" data-field="color"/>-->
+<!--                                        <a t-if="record.state != 'done'" role="menuitem" class="dropdown-item"-->
+<!--                                           name="action_done" type="object">تعيين   As Done-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                                <div class="oe_kanban_content">-->
+<!--                                    &lt;!&ndash; قسم العنوان (Title Section) &ndash;&gt;-->
+<!--                                    <div class="o_kanban_record_title">-->
+<!--                                        <field name="name"/>-->
+<!--                                    </div>-->
+
+<!--                                    &lt;!&ndash; قسم المحتوى (Body Section) &ndash;&gt;-->
+<!--                                    <div class="o_kanban_record_body">-->
+<!--                                        <p> عدد user_id-->
+<!--                                            <field name="user_id" widget="many2one_avatar_user"/>-->
+<!--                                        </p>-->
+<!--                                        <p> عدد member_id:-->
+<!--                                            <field name="member_id" widget="many2one_avatar"/>-->
+<!--                                        </p>-->
+<!--                                        <p> عدد total_amount:-->
+<!--                                            <field name="total_amount" widget="monetary"-->
+<!--                                                   options="{'currency_field': 'currency_id'}"/>-->
+<!--                                        </p>-->
+<!--                                        <div> عدد request_date:-->
+<!--                                            <field name="request_date"/>-->
+<!--                                        </div>-->
+
+<!--                                    </div>-->
+<!--                                    &lt;!&ndash; القسم السفلي (Bottom Section) &ndash;&gt;-->
+<!--                                    <div class="o_kanban_record_bottom">-->
+<!--                                        <div class="oe_kanban_bottom_left">-->
+<!--                                            <span>-->
+<!--                                                <p>عدد الكتب:-->
+<!--                                                    <field name="priority" widget="priority"/>-->
+<!--                                                </p>-->
+<!--                                                <p> <strong>State:</strong>-->
+<!--&lt;!&ndash;                                                    <field name="state"  />&ndash;&gt;-->
+<!--                                                    <field name="state" widget="state_selection" />-->
+<!--                                                </p>-->
+<!--                                            </span>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash; صورة على اليمين (Right-side image) &ndash;&gt;-->
+<!--                                        <div class="oe_kanban_bottom_right">-->
+<!--                                            <t t-if="record.image">-->
+<!--                                                <div class="o_kanban_image_fill_left d-none d-md-block"-->
+<!--                                                     t-attf-style="background-image:url('#{kanban_image('project.expense.request', 'image', record.id)}')"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                                <img class="o_kanban_image" alt="Avatar"-->
+<!--                                                     t-att-src="kanban_image('project.expense.request', 'image' ,record.id)"/>-->
+<!--                                            </t>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="oe_clear"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </t>-->
+<!--                    </templates>-->
+<!--                </kanban>-->
+<!--            </field>-->
+<!--        </record>-->
+
+
+        <!-- Form View for Project Expense Request -->
+        <record id="view_project_expense_request_form" model="ir.ui.view">
+            <field name="name">project.expense.request.form</field>
+            <field name="model">project.expense.request</field>
+            <field name="arch" type="xml">
+                <form string="Project Expense Request">
+                    <header>
+                        <button string="Open Wizard" type="action"
+                                name="%(project_expense.action_project_expense_report_wizard)d"
+                                context="{'default_property_id': active_id}" class="oe_highlight"
+                        />
+                        <button name="action_draft" string="Set to Draft" type="object" states="cancel"
+                                class="oe_highlight"/>
+                        <button name="action_confirmed" string="Confirmed" type="object" states="draft"
+                                class="oe_highlight"/>
+                        <button name="action_approved" string="Approved" type="object" states="confirmed"
+                                class="oe_highlight"/>
+                        <button name="action_done" string="Done" type="object" states="approved"
+                                class="oe_highlight"/>
+                        <button name="action_cancel" string="Cancel" type="object" states="draft,confirmed,approved"
+                                class="oe_highlight"/>
+                        <field name="state" widget="statusbar" clickable="1"/>
+                    </header>
+
+                    <sheet>
+                        <div name="button_box" class="oe_button_box">
+                            <button name="open_picking" string="Picking" icon="fa-truck" type="object">
+
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                            <field name="date" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                            <field name="project_id" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                            <field name="total_amount" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                            <field name="task_count" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                            <field name="project_manager_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Expense Request">
+                                <field name="line_ids"
+                                       attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}">
+                                    <tree editable="bottom">
+                                        <field name="expense_request_id"/>
+                                        <field name="product_id"/>
+                                        <field name="quantity"/>
+                                        <field name="uom_id" readonly="1"/>
+                                        <field name="expense_type_id"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <!-- Add Chatter Here -->
+                    <div class="oe_chatter">
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- Action for Project Expense Request -->
+        <record id="action_project_expense_request" model="ir.actions.act_window">
+            <field name="name">Project Expense Requests</field>
+            <field name="res_model">project.expense.request</field>
+            <!--            <field name="view_mode">kanban,tree,form</field>-->
+            <field name="view_mode">pivot,tree,form,graph,calendar,activity,kanban</field>
+<!--            <field name="view_id" ref="view_project_expense_request_kanban"/> &lt;!&ndash; Explicitly set the default Kanban view &ndash;&gt;-->
+            <field name="view_id" ref="view_pivot_product"/> <!-- Explicitly set the default Kanban view -->
+            <field name="context">{'group_by': 'project_id'}</field> <!-- Enable grouping by project -->
+
+        </record>
+
+        <!-- Menu for Project Expense Request -->
+        <menuitem id="menu_project_expense_request"
+                  name="Expense Request"
+                  parent="project.menu_main_pm"
+                  action="action_project_expense_request"
+                  groups="expense_manager_group"
+        />
+
+
+    </data>
+</odoo>

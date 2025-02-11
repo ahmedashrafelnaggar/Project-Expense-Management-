@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+
+        <!-- Project Form View Update to Add Expense Amount Inside Notebook -->
+        <record id="view_project_form" model="ir.ui.view">
+            <field name="name">project.project.form.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="expense_amount"/>
+                    <field name="picking_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_project_form_expense" model="ir.ui.view">
+            <field name="name">project.project.form.expense</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <div name="button_box" class="oe_button_box">
+                    <button class="oe_stat_button" name="action_view_picking" icon="fa-truck" type="object"
+                            groups="base.group_user"
+                            attrs="{'invisible': [('picking_id', '=', False)]}">
+                        <field string="Outgoing Picking" name="picking_id" widget="statinfo"/>
+
+                    </button>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>
+

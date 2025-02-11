@@ -1,0 +1,76 @@
+<odoo>
+    <report
+            id="expense_request_report"
+            model="project.expense.request"
+            string="Project Expenses Report"
+            report_type="qweb-pdf"
+            name="project_expense.expense_request_report_template"
+            file="project_expense.expense_request_report_template"/>
+
+    <template id="expense_request_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <h1 style="font-family: Workbench-Regular-VariableFont_BLED,SCAN;">Expense Report</h1>
+                    <style>
+                        table {
+                        border-collapse: collapse;
+                        width: 100%;
+                        border: 1px solid #b3adad;
+                        padding:5px;
+                        }
+
+
+                        table th {
+                        text-align:center;
+                        border: 1px solid #b3adad;
+                        padding:5px;
+                        background:#f0f0f0;
+                        color:#313030;
+
+                        }
+                        table td{
+                        border: 1px solid #b3adad;
+                        text-align:center;
+                        padding:5px;
+                        background:#ffffff;
+                        color:#313030;
+                        }
+                    </style>
+
+                    <table>
+                        <thead>
+                            <th colspan="4">General Info</th>
+                            <tr>
+                                <td>Project Name</td>
+                                <td>Project Manager</td>
+                                <td>Task Count</td>
+                                <td>Expense Amount</td>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.project_ids" t-as="project">
+                                <tr>
+                                    <td>
+                                        <t t-esc="project.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="project.user_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="project.task_count"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="project.expense_amount"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
